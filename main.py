@@ -15,8 +15,31 @@ def printData(country, start=86, end=87, sep=5):
             bout += f' {b}'
     with open('./out/out.txt', 'a') as f:
         f.write(f'{country}\n{iout}\n{bout}\n')
-    print(iout)
+
+def getDifferenciatedList(l):
+    newlist = []
+    for k, i in enumerate(l):
+        if k == 0:
+            newlist.append(0)
+        else:
+            newlist.append(i - l[k - 1])
+    return newlist
+
+def getNewCases(country, start=86, end=87, sep=1):
+    iout = ''
+    bout = ''
+    for i, b in enumerate(getDifferenciatedList(df.loc[country])[start:-end]):
+        if not i % sep:
+            iout += f' {i}'
+            bout += f' {b}'
+    with open('./out/new.txt', 'a') as f:
+        f.write(f'\n{country}\n{iout}\n{bout}')
+
 
 printData('Singapore', sep=1)
 printData('US', sep=1)
 printData('Taiwan*', sep=1)
+getNewCases('Singapore')
+getNewCases('US')
+getNewCases('Taiwan*')
+
